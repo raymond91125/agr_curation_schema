@@ -1,0 +1,275 @@
+# Revised Examples: Gene AND Anatomical Structure Function Annotations
+
+## ============================================
+## TYPE 1: GENE ANATOMY FUNCTION ANNOTATIONS
+## ============================================
+
+gene_examples:
+
+  - example_id: "gene_example_1_unc40"
+    description: "Gene functions in specific anatomical location"
+    annotation_type: GeneAnatomyFunctionAnnotation
+    data:
+      curie: "AGRKB:000100001"
+      primary_external_id: "WBbtf0179"
+      gene_subject: "WBGene00006776"  # unc-40
+      phenotype_term: "WBPhenotype:0001234"  # axon guidance defect
+      anatomical_sites:
+        - anatomical_structure: "WBbt:0003679"  # touch receptor neurons
+      cell_autonomy: "cell_autonomous"
+      functional_necessity: "necessary"
+      functional_sufficiency: "sufficient"
+      assay_used: ["mosaic analysis"]
+      single_reference: "PMID:8647913"
+
+  - example_id: "gene_example_2_unc6"
+    description: "Gene acts non-cell-autonomously from one tissue to affect another"
+    annotation_type: GeneAnatomyFunctionAnnotation
+    data:
+      curie: "AGRKB:000100002"
+      primary_external_id: "WBbtf0200"
+      gene_subject: "WBGene00006789"  # unc-6
+      phenotype_term: "WBPhenotype:0001234"  # axon guidance defect
+      anatomical_sites:
+        - anatomical_structure: "WBbt:0005784"  # body wall muscle (source)
+      cell_autonomy: "non_cell_autonomous"
+      functional_necessity: "necessary"
+      functional_sufficiency: "sufficient"
+      assay_used: ["tissue-specific rescue"]
+      single_reference: "PMID:7585943"
+      related_notes:
+        - note_type: "mechanism"
+          free_text: "unc-6 is expressed in muscle but guides neuronal axons at a distance"
+
+## =======================================================
+## TYPE 2: ANATOMICAL STRUCTURE FUNCTION ANNOTATIONS
+## =======================================================
+
+structure_examples:
+
+  - example_id: "structure_example_1_touch_neurons"
+    description: "Touch neurons are necessary for mechanosensation"
+    annotation_type: AnatomicalStructureFunctionAnnotation
+    data:
+      curie: "AGRKB:000200001"
+      primary_external_id: "WBbtf1001"
+      anatomical_structure_subject: "WBbt:0003679"  # touch receptor neurons
+      phenotype_term: "WBPhenotype:0000643"  # mechanosensory defect
+      functional_necessity: "necessary"
+      assay_used: ["laser ablation"]
+      single_reference: "PMID:6275397"
+      related_notes:
+        - note_type: "experimental_method"
+          free_text: "Laser ablation of touch neurons eliminates mechanosensation to gentle touch"
+
+  - example_id: "structure_example_2_pharynx"
+    description: "Pharynx is necessary for feeding"
+    annotation_type: AnatomicalStructureFunctionAnnotation
+    data:
+      curie: "AGRKB:000200002"
+      primary_external_id: "WBbtf1002"
+      anatomical_structure_subject: "WBbt:0005831"  # pharynx
+      phenotype_term: "WBPhenotype:0000517"  # feeding defect
+      functional_necessity: "necessary"
+      functional_sufficiency: "sufficient"
+      assay_used: ["developmental observation", "surgical analysis"]
+      single_reference: "PMID:XXXXXXX"
+      related_notes:
+        - note_type: "developmental"
+          free_text: "Animals lacking functional pharynx cannot ingest food and die as larvae"
+
+  - example_id: "structure_example_3_vulva"
+    description: "Vulva is necessary for egg-laying"
+    annotation_type: AnatomicalStructureFunctionAnnotation
+    data:
+      curie: "AGRKB:000200003"
+      primary_external_id: "WBbtf1003"
+      anatomical_structure_subject: "WBbt:0006748"  # vulva
+      phenotype_term: "WBPhenotype:0001362"  # egg laying defect
+      functional_necessity: "necessary"
+      assay_used: ["developmental observation"]
+      single_reference: "PMID:XXXXXXX"
+      related_notes:
+        - note_type: "anatomical_requirement"
+          free_text: "Vulvaless mutants retain eggs and exhibit egg-laying defective phenotype"
+
+  - example_id: "structure_example_4_nervous_system"
+    description: "Nervous system is necessary for coordinated locomotion"
+    annotation_type: AnatomicalStructureFunctionAnnotation
+    data:
+      curie: "AGRKB:000200004"
+      primary_external_id: "WBbtf1004"
+      anatomical_structure_subject: "WBbt:0005735"  # nervous system
+      phenotype_term: "WBPhenotype:0000643"  # locomotion variant
+      functional_necessity: "necessary"
+      assay_used: ["chemical ablation", "genetic ablation"]
+      single_reference: "PMID:XXXXXXX"
+      anatomical_context:
+        - anatomical_structure: "WBbt:0008784"  # whole organism context
+
+  - example_id: "structure_example_5_specific_neuron_class"
+    description: "HSN neurons are necessary for egg-laying"
+    annotation_type: AnatomicalStructureFunctionAnnotation
+    data:
+      curie: "AGRKB:000200005"
+      primary_external_id: "WBbtf1005"
+      anatomical_structure_subject: "WBbt:0003927"  # HSN neurons
+      phenotype_term: "WBPhenotype:0001362"  # egg laying defect
+      functional_necessity: "necessary"
+      functional_sufficiency: "sufficient"
+      assay_used: ["laser ablation", "genetic ablation"]
+      single_reference: "PMID:3394656"
+      anatomical_context:
+        - anatomical_structure: "WBbt:0005735"  # nervous system (broader context)
+      related_notes:
+        - note_type: "cell_specificity"
+          free_text: "Specific ablation of HSN neurons causes egg-laying defects. Other neurons do not compensate."
+
+## ===========================================
+## COMPARISON: Gene vs Structure Annotations
+## ===========================================
+
+comparison_examples:
+
+  - scenario: "Mechanosensation in touch neurons"
+    gene_level:
+      description: "mec-4 gene functions in touch neurons"
+      annotation_type: GeneAnatomyFunctionAnnotation
+      gene_subject: "WBGene00003180"  # mec-4
+      phenotype_term: "WBPhenotype:0000643"  # mechanosensory defect
+      anatomical_sites: ["WBbt:0003679"]  # touch receptor neurons
+      cell_autonomy: "cell_autonomous"
+      interpretation: "The mec-4 gene acts within touch neurons to enable mechanosensation"
+
+    structure_level:
+      description: "Touch neurons are necessary for mechanosensation"
+      annotation_type: AnatomicalStructureFunctionAnnotation
+      anatomical_structure_subject: "WBbt:0003679"  # touch receptor neurons
+      phenotype_term: "WBPhenotype:0000643"  # mechanosensory defect
+      interpretation: "The touch neurons themselves (as cellular structures) are required for mechanosensation"
+
+    relationship: >-
+      Both are true but at different levels of organization:
+      - Gene level: Molecular mechanism (HOW mechanosensation works)
+      - Structure level: Cellular requirement (WHAT structures are needed)
+
+  - scenario: "Egg-laying behavior"
+    gene_level:
+      description: "egl-1 gene functions in HSN neurons"
+      annotation_type: GeneAnatomyFunctionAnnotation
+      gene_subject: "WBGene00001170"  # egl-1
+      phenotype_term: "WBPhenotype:0001362"  # egg laying defect
+      anatomical_sites: ["WBbt:0003927"]  # HSN neurons
+      interpretation: "egl-1 is required in HSN neurons for their development/function"
+
+    structure_level:
+      description: "HSN neurons are necessary for egg-laying"
+      annotation_type: AnatomicalStructureFunctionAnnotation
+      anatomical_structure_subject: "WBbt:0003927"  # HSN neurons
+      phenotype_term: "WBPhenotype:0001362"  # egg laying defect
+      interpretation: "HSN neurons as a structure are required for egg-laying behavior"
+
+    relationship: >-
+      Hierarchical relationship:
+      - Structure: HSN neurons must exist (ablation experiment)
+      - Gene: egl-1 must function within HSN neurons (genetic experiment)
+
+## ====================================
+## DTO FORMAT EXAMPLES
+## ====================================
+
+dto_examples:
+
+  gene_dto:
+    description: "DTO for gene annotation (bulk upload)"
+    data:
+      mod_internal_id: "WBbtf0179"
+      gene_identifier: "WBGene00006776"
+      phenotype_term_curie: "WBPhenotype:0001234"
+      anatomical_site_dtos:
+        - anatomical_structure_curie: "WBbt:0003679"
+      cell_autonomy_name: "cell_autonomous"
+      necessity_name: "necessary"
+      sufficiency_name: "sufficient"
+      assay_name: "mosaic analysis"
+      reference_curie: "PMID:8647913"
+      data_provider_dto:
+        source_organization_abbreviation: "WB"
+
+  structure_dto:
+    description: "DTO for structure annotation (bulk upload)"
+    data:
+      mod_internal_id: "WBbtf1001"
+      anatomical_structure_curie: "WBbt:0003679"
+      phenotype_term_curie: "WBPhenotype:0000643"
+      anatomical_context_dto:
+        anatomical_structure_curie: "WBbt:0005735"  # nervous system
+      necessity_name: "necessary"
+      assay_name: "laser ablation"
+      reference_curie: "PMID:6275397"
+      data_provider_dto:
+        source_organization_abbreviation: "WB"
+
+## ====================================
+## USE CASES FOR STRUCTURE ANNOTATIONS
+## ====================================
+
+use_cases:
+
+  - use_case: "Developmental Biology"
+    description: >-
+      Identifying which anatomical structures are necessary for specific
+      developmental processes or behaviors, independent of specific genes.
+    examples:
+      - "Germline is necessary for gametogenesis"
+      - "Anchor cell is necessary for vulva development"
+      - "Distal tip cell is necessary for germ cell proliferation"
+
+  - use_case: "Neurobiology"
+    description: >-
+      Determining which neurons or neuronal circuits are required for behaviors
+      through ablation experiments.
+    examples:
+      - "HSN neurons are necessary for egg-laying"
+      - "Touch neurons are necessary for mechanosensation"
+      - "Command interneurons are necessary for locomotion"
+
+  - use_case: "Comparative Anatomy"
+    description: >-
+      Understanding the evolutionary conservation or divergence of structure-
+      function relationships across species.
+    examples:
+      - "Comparing which brain regions are necessary for memory across mammals"
+      - "Identifying conserved vs. divergent anatomical requirements"
+
+  - use_case: "Systems Biology"
+    description: >-
+      Building hierarchical models of function from molecules → cells → tissues
+    examples:
+      - "Gene X → Cell type Y → Behavior Z"
+      - "Multiple genes in structure → structure required for phenotype"
+
+## ====================================
+## SUMMARY
+## ====================================
+
+summary:
+  total_annotation_types: 2
+
+  gene_annotations:
+    class: GeneAnatomyFunctionAnnotation
+    subject: Gene
+    location: anatomical_sites (WHERE gene functions)
+    cell_autonomy: yes (applicable)
+    use: "Molecular mechanism and spatial requirement of gene function"
+
+  structure_annotations:
+    class: AnatomicalStructureFunctionAnnotation
+    subject: AnatomicalTerm
+    location: anatomical_context (broader context, optional)
+    cell_autonomy: no (not applicable)
+    use: "Cellular/tissue requirement for phenotype, independent of specific genes"
+
+  key_difference: >-
+    Gene annotations answer "WHERE does gene X act to produce phenotype Y?"
+    Structure annotations answer "IS structure X necessary/sufficient for phenotype Y?"
