@@ -68,11 +68,10 @@ classes:
         description: >-
           The phenotype that results from or is affected by the functional entity.
         required: true
-      single_reference:
+      evidence_item:
         description: >-
           The reference (publication) that reports this functional relationship.
         required: true
-        range: Reference
 
   GeneAnatomyFunctionAnnotation:
     is_a: AnatomyFunctionAnnotation
