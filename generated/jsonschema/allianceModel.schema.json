@@ -9224,6 +9224,431 @@
             "title": "AnatomicalSiteDTO",
             "type": "object"
         },
+        "AnatomicalStructureFunctionAnnotation": {
+            "additionalProperties": false,
+            "description": "An annotation where an ANATOMICAL STRUCTURE itself is the functional entity. Describes whether an anatomical structure is necessary/sufficient for a phenotype.",
+            "examples": [
+                "Touch receptor neurons are necessary for mechanosensation",
+                "The pharynx is necessary for feeding behavior",
+                "Ablation of the vulva prevents egg-laying"
+            ],
+            "properties": {
+                "anatomical_context": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/AnatomicalSite"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional anatomical context providing additional spatial information. For example, if a specific cell type (subject) within a larger tissue (context) is being studied."
+                },
+                "anatomical_structure_subjects": {
+                    "description": "The anatomical structure(s) that are the subject of the annotation: the structures whose presence/absence/activity affects the phenotype. When more than one is given they were manipulated together.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "anatomical_structures_not_involved": {
+                    "description": "Anatomical structure(s) shown NOT to be involved in the phenotype (e.g. ablation had no effect). Negative data.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assay_used": {
+                    "description": "The experimental assay or method used to determine the functional relationship.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "condition_relations": {
+                    "items": {
+                        "$ref": "#/$defs/ConditionRelation"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "created_by": {
+                    "description": "The individual that created the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "curie": {
+                    "description": "A unique identifier for a thing. Must be either a CURIE shorthand for a URI or a complete URI",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "data_provider": {
+                    "$ref": "#/$defs/Organization",
+                    "description": "The organization (e.g. MOD) from which the data was sourced"
+                },
+                "data_provider_cross_reference": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CrossReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "CrossReference to the organization from which the data was sourced"
+                },
+                "date_created": {
+                    "description": "The date on which an entity was created. This can be applied to nodes or edges.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "date_updated": {
+                    "description": "Date on which an entity was last modified.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_created": {
+                    "description": "The date on which an entity was created in the Alliance database.  This is distinct from date_created, which represents the date when the entity was originally created (i.e. at the MOD for imported data).",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_updated": {
+                    "description": "Date on which an entity was last modified in the Alliance database.  This is distinct from date_updated, which represents the date when the entity was last modified and may predate import into the Alliance database.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_item": {
+                    "$ref": "#/$defs/Reference",
+                    "description": "The reference (publication) that reports this functional relationship."
+                },
+                "functional_necessity": {
+                    "description": "Whether the functional entity (gene or structure) is necessary (required) or unnecessary (not required) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "functional_sufficiency": {
+                    "description": "Whether the functional entity (gene or structure) is sufficient (alone can cause) or insufficient (not enough alone) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "internal": {
+                    "description": "Classifies the entity as private (for internal use) or not (for public use).",
+                    "type": "boolean"
+                },
+                "mod_internal_id": {
+                    "description": "The model organism database (MOD) internal identifier for the object",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "obsolete": {
+                    "description": "Entity is no longer current.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "phenotype_term": {
+                    "description": "The phenotype that results from or is affected by the functional entity.",
+                    "type": "string"
+                },
+                "primary_external_id": {
+                    "description": "The primary external (non-Alliance) database identifier/curie for the object. Note that this may be an external (non-Alliance member) identifier for an object, like a UniProt ID for a protein, and may act as the MOD's/Alliance member's primary key for the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "related_notes": {
+                    "description": "Holds between an object and a list of related Note objects.",
+                    "items": {
+                        "$ref": "#/$defs/Note"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "relation": {
+                    "description": "A high-level grouping for the relationship type. This is analogous to category for nodes. In RDF, this corresponds to rdf:predicate and in Neo4j this corresponds to the relationship type.",
+                    "type": "string"
+                },
+                "unique_id": {
+                    "description": "A non-curie unique identifier for a thing.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_by": {
+                    "description": "The individual that last modified the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "phenotype_term",
+                "data_provider",
+                "evidence_item",
+                "relation",
+                "internal"
+            ],
+            "then": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "anatomical_structure_subjects": {
+                                "items": {},
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "anatomical_structure_subjects"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "anatomical_structures_not_involved": {
+                                "items": {},
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "anatomical_structures_not_involved"
+                        ]
+                    }
+                ]
+            },
+            "title": "AnatomicalStructureFunctionAnnotation",
+            "type": "object"
+        },
+        "AnatomicalStructureFunctionAnnotationDTO": {
+            "additionalProperties": false,
+            "description": "Ingest class for AnatomicalStructureFunctionAnnotation.",
+            "properties": {
+                "anatomical_context_dto": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/AnatomicalSiteDTO"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Anatomical context for structure annotations."
+                },
+                "anatomical_structure_curies": {
+                    "description": "CURIEs of the anatomical structure subject(s).",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "anatomical_structure_not_involved_curies": {
+                    "description": "CURIEs of anatomical structures shown not to be involved.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assay_name": {
+                    "description": "Name or identifier of the assay used.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "condition_relation_dtos": {
+                    "items": {
+                        "$ref": "#/$defs/ConditionRelationDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "created_by_curie": {
+                    "description": "Curie of the Person object representing the individual that created the entity",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "data_provider_dto": {
+                    "$ref": "#/$defs/DataProviderDTO",
+                    "description": "Ingest object representing the organization (e.g. MOD) from which the data was sourced and a CrossReference to that organisation's site"
+                },
+                "date_created": {
+                    "description": "The date on which an entity was created. This can be applied to nodes or edges.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "date_updated": {
+                    "description": "Date on which an entity was last modified.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_created": {
+                    "description": "The date on which an entity was created in the Alliance database.  This is distinct from date_created, which represents the date when the entity was originally created (i.e. at the MOD for imported data).",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_updated": {
+                    "description": "Date on which an entity was last modified in the Alliance database.  This is distinct from date_updated, which represents the date when the entity was last modified and may predate import into the Alliance database.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_curie": {
+                    "description": "Curie of Reference object given as evidence",
+                    "type": "string"
+                },
+                "internal": {
+                    "description": "Classifies the entity as private (for internal use) or not (for public use).",
+                    "type": "boolean"
+                },
+                "mod_internal_id": {
+                    "description": "The model organism database (MOD) internal identifier for the object",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "necessity_name": {
+                    "description": "Name of the necessity vocabulary term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "note_dtos": {
+                    "items": {
+                        "$ref": "#/$defs/NoteDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "obsolete": {
+                    "description": "Entity is no longer current.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "phenotype_term_curie": {
+                    "description": "The string representation of the phenotype ontology term (PhenotypeTerm) curie",
+                    "type": "string"
+                },
+                "primary_external_id": {
+                    "description": "The primary external (non-Alliance) database identifier/curie for the object. Note that this may be an external (non-Alliance member) identifier for an object, like a UniProt ID for a protein, and may act as the MOD's/Alliance member's primary key for the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sufficiency_name": {
+                    "description": "Name of the sufficiency vocabulary term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_by_curie": {
+                    "description": "Curie of the Person object representing the individual that updated the entity",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "phenotype_term_curie",
+                "data_provider_dto",
+                "evidence_curie",
+                "internal"
+            ],
+            "then": {
+                "anyOf": [
+                    {
+                        "properties": {
+                            "anatomical_structure_curies": {
+                                "items": {},
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "anatomical_structure_curies"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "anatomical_structure_not_involved_curies": {
+                                "items": {},
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "anatomical_structure_not_involved_curies"
+                        ]
+                    }
+                ]
+            },
+            "title": "AnatomicalStructureFunctionAnnotationDTO",
+            "type": "object"
+        },
         "AnatomicalTerm": {
             "additionalProperties": false,
             "description": "",
@@ -9408,6 +9833,176 @@
                 "internal"
             ],
             "title": "AnatomicalTerm",
+            "type": "object"
+        },
+        "AnatomyFunctionAnnotation": {
+            "additionalProperties": false,
+            "description": "An annotation asserting a functional relationship between a biological entity and a phenotype in an anatomical context. The biological entity can be either a gene (molecular level) or an anatomical structure (cellular/tissue level).",
+            "properties": {
+                "assay_used": {
+                    "description": "The experimental assay or method used to determine the functional relationship.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "condition_relations": {
+                    "items": {
+                        "$ref": "#/$defs/ConditionRelation"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "created_by": {
+                    "description": "The individual that created the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "curie": {
+                    "description": "A unique identifier for a thing. Must be either a CURIE shorthand for a URI or a complete URI",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "data_provider": {
+                    "$ref": "#/$defs/Organization",
+                    "description": "The organization (e.g. MOD) from which the data was sourced"
+                },
+                "data_provider_cross_reference": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CrossReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "CrossReference to the organization from which the data was sourced"
+                },
+                "date_created": {
+                    "description": "The date on which an entity was created. This can be applied to nodes or edges.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "date_updated": {
+                    "description": "Date on which an entity was last modified.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_created": {
+                    "description": "The date on which an entity was created in the Alliance database.  This is distinct from date_created, which represents the date when the entity was originally created (i.e. at the MOD for imported data).",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_updated": {
+                    "description": "Date on which an entity was last modified in the Alliance database.  This is distinct from date_updated, which represents the date when the entity was last modified and may predate import into the Alliance database.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_item": {
+                    "$ref": "#/$defs/Reference",
+                    "description": "The reference (publication) that reports this functional relationship."
+                },
+                "functional_necessity": {
+                    "description": "Whether the functional entity (gene or structure) is necessary (required) or unnecessary (not required) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "functional_sufficiency": {
+                    "description": "Whether the functional entity (gene or structure) is sufficient (alone can cause) or insufficient (not enough alone) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "internal": {
+                    "description": "Classifies the entity as private (for internal use) or not (for public use).",
+                    "type": "boolean"
+                },
+                "mod_internal_id": {
+                    "description": "The model organism database (MOD) internal identifier for the object",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "obsolete": {
+                    "description": "Entity is no longer current.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "phenotype_term": {
+                    "description": "The phenotype that results from or is affected by the functional entity.",
+                    "type": "string"
+                },
+                "primary_external_id": {
+                    "description": "The primary external (non-Alliance) database identifier/curie for the object. Note that this may be an external (non-Alliance member) identifier for an object, like a UniProt ID for a protein, and may act as the MOD's/Alliance member's primary key for the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "related_notes": {
+                    "description": "Holds between an object and a list of related Note objects.",
+                    "items": {
+                        "$ref": "#/$defs/Note"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "relation": {
+                    "description": "A high-level grouping for the relationship type. This is analogous to category for nodes. In RDF, this corresponds to rdf:predicate and in Neo4j this corresponds to the relationship type.",
+                    "type": "string"
+                },
+                "unique_id": {
+                    "description": "A non-curie unique identifier for a thing.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_by": {
+                    "description": "The individual that last modified the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "phenotype_term",
+                "data_provider",
+                "evidence_item",
+                "relation",
+                "internal"
+            ],
+            "title": "AnatomyFunctionAnnotation",
             "type": "object"
         },
         "Annotation": {
@@ -15304,6 +15899,15 @@
             ],
             "title": "CassetteUseSlotAnnotationDTO",
             "type": "object"
+        },
+        "CellAutonomyEnum": {
+            "description": "Controlled vocabulary for cell autonomy status (gene-level only)",
+            "enum": [
+                "cell_autonomous",
+                "non_cell_autonomous"
+            ],
+            "title": "CellAutonomyEnum",
+            "type": "string"
         },
         "CellLine": {
             "additionalProperties": false,
@@ -25384,6 +25988,381 @@
             "title": "Gene",
             "type": "object"
         },
+        "GeneAnatomyFunctionAnnotation": {
+            "additionalProperties": false,
+            "description": "An annotation where a GENE is the functional entity. Describes where a gene functions to produce a phenotype, including cell autonomy properties.",
+            "examples": [
+                "unc-40 acts cell-autonomously in touch neurons for axon guidance",
+                "unc-6 acts non-cell-autonomously from muscle to guide neuronal axons",
+                "mec-4 is necessary in touch neurons but not in interneurons"
+            ],
+            "properties": {
+                "anatomical_sites": {
+                    "description": "The anatomical location(s) WHERE the gene functions to produce the phenotype. This is the site of gene action/requirement.",
+                    "items": {
+                        "$ref": "#/$defs/AnatomicalSite"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "anatomical_sites_not_involved": {
+                    "description": "Anatomical location(s) where the gene does NOT function for this phenotype. Negative spatial data.",
+                    "items": {
+                        "$ref": "#/$defs/AnatomicalSite"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assay_used": {
+                    "description": "The experimental assay or method used to determine the functional relationship.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "cell_autonomy": {
+                    "description": "Whether the gene acts cell-autonomously (within the cell where expressed) or non-cell-autonomously (affects other cells).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "condition_relations": {
+                    "items": {
+                        "$ref": "#/$defs/ConditionRelation"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "created_by": {
+                    "description": "The individual that created the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "curie": {
+                    "description": "A unique identifier for a thing. Must be either a CURIE shorthand for a URI or a complete URI",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "data_provider": {
+                    "$ref": "#/$defs/Organization",
+                    "description": "The organization (e.g. MOD) from which the data was sourced"
+                },
+                "data_provider_cross_reference": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CrossReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "CrossReference to the organization from which the data was sourced"
+                },
+                "date_created": {
+                    "description": "The date on which an entity was created. This can be applied to nodes or edges.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "date_updated": {
+                    "description": "Date on which an entity was last modified.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_created": {
+                    "description": "The date on which an entity was created in the Alliance database.  This is distinct from date_created, which represents the date when the entity was originally created (i.e. at the MOD for imported data).",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_updated": {
+                    "description": "Date on which an entity was last modified in the Alliance database.  This is distinct from date_updated, which represents the date when the entity was last modified and may predate import into the Alliance database.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_item": {
+                    "$ref": "#/$defs/Reference",
+                    "description": "The reference (publication) that reports this functional relationship."
+                },
+                "functional_necessity": {
+                    "description": "Whether the functional entity (gene or structure) is necessary (required) or unnecessary (not required) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "functional_sufficiency": {
+                    "description": "Whether the functional entity (gene or structure) is sufficient (alone can cause) or insufficient (not enough alone) for the phenotype.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "gene_subject": {
+                    "$ref": "#/$defs/Gene",
+                    "description": "The gene that is the subject of the annotation."
+                },
+                "internal": {
+                    "description": "Classifies the entity as private (for internal use) or not (for public use).",
+                    "type": "boolean"
+                },
+                "mod_internal_id": {
+                    "description": "The model organism database (MOD) internal identifier for the object",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "obsolete": {
+                    "description": "Entity is no longer current.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "phenotype_term": {
+                    "description": "The phenotype that results from or is affected by the functional entity.",
+                    "type": "string"
+                },
+                "primary_external_id": {
+                    "description": "The primary external (non-Alliance) database identifier/curie for the object. Note that this may be an external (non-Alliance member) identifier for an object, like a UniProt ID for a protein, and may act as the MOD's/Alliance member's primary key for the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "related_notes": {
+                    "description": "Holds between an object and a list of related Note objects.",
+                    "items": {
+                        "$ref": "#/$defs/Note"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "relation": {
+                    "description": "A high-level grouping for the relationship type. This is analogous to category for nodes. In RDF, this corresponds to rdf:predicate and in Neo4j this corresponds to the relationship type.",
+                    "type": "string"
+                },
+                "unique_id": {
+                    "description": "A non-curie unique identifier for a thing.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_by": {
+                    "description": "The individual that last modified the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "gene_subject",
+                "phenotype_term",
+                "data_provider",
+                "evidence_item",
+                "relation",
+                "internal"
+            ],
+            "title": "GeneAnatomyFunctionAnnotation",
+            "type": "object"
+        },
+        "GeneAnatomyFunctionAnnotationDTO": {
+            "additionalProperties": false,
+            "description": "Ingest class for GeneAnatomyFunctionAnnotation.",
+            "properties": {
+                "anatomical_site_dtos": {
+                    "description": "List of anatomical sites where the gene functions (for gene annotations).",
+                    "items": {
+                        "$ref": "#/$defs/AnatomicalSiteDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "anatomical_site_not_involved_dtos": {
+                    "description": "List of anatomical sites where the gene does NOT function.",
+                    "items": {
+                        "$ref": "#/$defs/AnatomicalSiteDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assay_name": {
+                    "description": "Name or identifier of the assay used.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cell_autonomy_name": {
+                    "description": "Name of the cell autonomy vocabulary term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "condition_relation_dtos": {
+                    "items": {
+                        "$ref": "#/$defs/ConditionRelationDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "created_by_curie": {
+                    "description": "Curie of the Person object representing the individual that created the entity",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "data_provider_dto": {
+                    "$ref": "#/$defs/DataProviderDTO",
+                    "description": "Ingest object representing the organization (e.g. MOD) from which the data was sourced and a CrossReference to that organisation's site"
+                },
+                "date_created": {
+                    "description": "The date on which an entity was created. This can be applied to nodes or edges.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "date_updated": {
+                    "description": "Date on which an entity was last modified.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_created": {
+                    "description": "The date on which an entity was created in the Alliance database.  This is distinct from date_created, which represents the date when the entity was originally created (i.e. at the MOD for imported data).",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "db_date_updated": {
+                    "description": "Date on which an entity was last modified in the Alliance database.  This is distinct from date_updated, which represents the date when the entity was last modified and may predate import into the Alliance database.",
+                    "format": "date-time",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_curie": {
+                    "description": "Curie of Reference object given as evidence",
+                    "type": "string"
+                },
+                "gene_identifier": {
+                    "description": "Identifier (curie/primary_external_id/mod_internal_id) of the gene",
+                    "type": "string"
+                },
+                "internal": {
+                    "description": "Classifies the entity as private (for internal use) or not (for public use).",
+                    "type": "boolean"
+                },
+                "mod_internal_id": {
+                    "description": "The model organism database (MOD) internal identifier for the object",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "necessity_name": {
+                    "description": "Name of the necessity vocabulary term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "note_dtos": {
+                    "items": {
+                        "$ref": "#/$defs/NoteDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "obsolete": {
+                    "description": "Entity is no longer current.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "phenotype_term_curie": {
+                    "description": "The string representation of the phenotype ontology term (PhenotypeTerm) curie",
+                    "type": "string"
+                },
+                "primary_external_id": {
+                    "description": "The primary external (non-Alliance) database identifier/curie for the object. Note that this may be an external (non-Alliance member) identifier for an object, like a UniProt ID for a protein, and may act as the MOD's/Alliance member's primary key for the entity.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sufficiency_name": {
+                    "description": "Name of the sufficiency vocabulary term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "updated_by_curie": {
+                    "description": "Curie of the Person object representing the individual that updated the entity",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "gene_identifier",
+                "phenotype_term_curie",
+                "data_provider_dto",
+                "evidence_curie",
+                "internal"
+            ],
+            "title": "GeneAnatomyFunctionAnnotationDTO",
+            "type": "object"
+        },
         "GeneChangeEventSlotAnnotation": {
             "additionalProperties": false,
             "description": "A major change to a gene: e.g., new, merge, split, rename, deprecation.",
@@ -33113,6 +34092,15 @@
                         "null"
                     ]
                 },
+                "anatomical_structure_function_annotation_ingest_set": {
+                    "items": {
+                        "$ref": "#/$defs/AnatomicalStructureFunctionAnnotationDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "antibody_ingest_set": {
                     "description": "An ingest set for Antibody objects",
                     "items": {
@@ -33226,6 +34214,15 @@
                 "functional_gene_set_ingest_set": {
                     "items": {
                         "$ref": "#/$defs/FunctionalGeneSetDTO"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "gene_anatomy_function_annotation_ingest_set": {
+                    "items": {
+                        "$ref": "#/$defs/GeneAnatomyFunctionAnnotationDTO"
                     },
                     "type": [
                         "array",
@@ -36189,6 +37186,15 @@
             ],
             "title": "NameSlotAnnotationDTO",
             "type": "object"
+        },
+        "NecessityEnum": {
+            "description": "Controlled vocabulary for necessity status (applies to both genes and structures)",
+            "enum": [
+                "necessary",
+                "unnecessary"
+            ],
+            "title": "NecessityEnum",
+            "type": "string"
         },
         "Note": {
             "additionalProperties": false,
@@ -44390,6 +45396,15 @@
             "title": "SubtypeValues",
             "type": "string"
         },
+        "SufficiencyEnum": {
+            "description": "Controlled vocabulary for sufficiency status (applies to both genes and structures)",
+            "enum": [
+                "sufficient",
+                "insufficient"
+            ],
+            "title": "SufficiencyEnum",
+            "type": "string"
+        },
         "SymbolSlotAnnotationDTO": {
             "additionalProperties": false,
             "description": "",
@@ -51836,6 +52851,15 @@
                 "null"
             ]
         },
+        "anatomical_structure_function_annotation_ingest_set": {
+            "items": {
+                "$ref": "#/$defs/AnatomicalStructureFunctionAnnotationDTO"
+            },
+            "type": [
+                "array",
+                "null"
+            ]
+        },
         "antibody_ingest_set": {
             "description": "An ingest set for Antibody objects",
             "items": {
@@ -51949,6 +52973,15 @@
         "functional_gene_set_ingest_set": {
             "items": {
                 "$ref": "#/$defs/FunctionalGeneSetDTO"
+            },
+            "type": [
+                "array",
+                "null"
+            ]
+        },
+        "gene_anatomy_function_annotation_ingest_set": {
+            "items": {
+                "$ref": "#/$defs/GeneAnatomyFunctionAnnotationDTO"
             },
             "type": [
                 "array",

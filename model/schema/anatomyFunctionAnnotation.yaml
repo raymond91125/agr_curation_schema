@@ -1,0 +1,423 @@
+id: https://github.com/alliance-genome/agr_curation_schema/anatomyFunctionAnnotation.yaml
+name: Alliance-AnatomyFunction-Annotation-Revised
+title: Alliance Anatomy Function Annotation Model (Revised)
+description: >-
+  AGR schema for annotations describing functional relationships between
+  biological entities (genes OR anatomical structures) and phenotypes in
+  specific anatomical contexts.
+
+imports:
+  - core
+  - gene
+  - allele
+  - ontologyTerm
+  - phenotypeAndDiseaseAnnotation
+  - expression
+  - reference
+  - linkml:types
+
+prefixes:
+  alliance: 'http://alliancegenome.org/'
+  linkml: 'https://w3id.org/linkml/'
+  biolink: 'https://w3id.org/biolink/vocab/'
+
+default_prefix: alliance
+default_range: string
+
+default_curi_maps:
+  - obo_context
+  - idot_context
+  - semweb_context
+  - monarch_context
+
+emit_prefixes:
+  - rdf
+  - rdfs
+  - xsd
+  - owl
+
+## ------------
+## CLASSES
+## ------------
+
+classes:
+
+  AnatomyFunctionAnnotation:
+    is_a: Annotation
+    abstract: true
+    description: >-
+      An annotation asserting a functional relationship between a biological
+      entity and a phenotype in an anatomical context. The biological entity
+      can be either a gene (molecular level) or an anatomical structure
+      (cellular/tissue level).
+    notes: >-
+      This abstract class supports two types of functional relationships:
+      1. Gene-level: A gene functions in anatomical location(s) to produce a phenotype
+      2. Structure-level: An anatomical structure itself is necessary/sufficient for a phenotype
+
+      Examples:
+      - Gene-level: "unc-40 acts cell-autonomously in neurons for axon guidance"
+      - Structure-level: "Touch neurons are necessary for mechanosensation"
+    slots:
+      - phenotype_term
+      - functional_necessity
+      - functional_sufficiency
+      - assay_used
+    slot_usage:
+      phenotype_term:
+        description: >-
+          The phenotype that results from or is affected by the functional entity.
+        required: true
+      evidence_item:
+        description: >-
+          The reference (publication) that reports this functional relationship.
+        required: true
+
+  GeneAnatomyFunctionAnnotation:
+    is_a: AnatomyFunctionAnnotation
+    description: >-
+      An annotation where a GENE is the functional entity. Describes where a gene
+      functions to produce a phenotype, including cell autonomy properties.
+    notes: >-
+      Use this class when the functional entity is a specific gene and you're
+      describing where that gene acts. This is the most common case for genetic
+      studies. functional_necessity / functional_sufficiency describe the
+      anatomical_sites when any are given; otherwise they describe the
+      anatomical_sites_not_involved (e.g. "expression in site X is insufficient
+      to rescue").
+    slots:
+      - gene_subject
+      - anatomical_sites
+      - anatomical_sites_not_involved
+      - cell_autonomy
+    examples:
+      - value: unc-40 acts cell-autonomously in touch neurons for axon guidance
+      - value: unc-6 acts non-cell-autonomously from muscle to guide neuronal axons
+      - value: mec-4 is necessary in touch neurons but not in interneurons
+
+  AnatomicalStructureFunctionAnnotation:
+    is_a: AnatomyFunctionAnnotation
+    description: >-
+      An annotation where an ANATOMICAL STRUCTURE itself is the functional entity.
+      Describes whether an anatomical structure is necessary/sufficient for a phenotype.
+    notes: >-
+      Use this class when the functional entity is an anatomical structure
+      (cell type, tissue, organ) rather than a specific gene. Common for:
+      - Laser ablation experiments
+      - Surgical removal studies
+      - Structure-function relationships
+      - Developmental requirements
+      Multiple subjects mean the structures were manipulated together (e.g. a
+      combined ablation of ASH and ADL). functional_necessity /
+      functional_sufficiency describe the anatomical_structure_subjects when any
+      are given; otherwise they describe the anatomical_structures_not_involved.
+    slots:
+      - anatomical_structure_subjects
+      - anatomical_structures_not_involved
+      - anatomical_context
+    rules:
+      - postconditions:
+          any_of:
+            - slot_conditions:
+                anatomical_structure_subjects:
+                  required: true
+            - slot_conditions:
+                anatomical_structures_not_involved:
+                  required: true
+          description: At least one of anatomical_structure_subjects or anatomical_structures_not_involved must be populated.
+    examples:
+      - value: Touch receptor neurons are necessary for mechanosensation
+      - value: The pharynx is necessary for feeding behavior
+      - value: Ablation of the vulva prevents egg-laying
+
+  # DTO classes for data ingestion
+
+  GeneAnatomyFunctionAnnotationDTO:
+    is_a: AnnotationDTO
+    description: >-
+      Ingest class for GeneAnatomyFunctionAnnotation.
+    slots:
+      - gene_identifier
+      - phenotype_term_curie
+      - anatomical_site_dtos
+      - anatomical_site_not_involved_dtos
+      - cell_autonomy_name
+      - necessity_name
+      - sufficiency_name
+      - assay_name
+    slot_usage:
+      evidence_curie:
+        required: true
+      phenotype_term_curie:
+        required: true
+
+  AnatomicalStructureFunctionAnnotationDTO:
+    is_a: AnnotationDTO
+    description: >-
+      Ingest class for AnatomicalStructureFunctionAnnotation.
+    slots:
+      - anatomical_structure_curies
+      - anatomical_structure_not_involved_curies
+      - phenotype_term_curie
+      - anatomical_context_dto
+      - necessity_name
+      - sufficiency_name
+      - assay_name
+    slot_usage:
+      evidence_curie:
+        required: true
+      phenotype_term_curie:
+        required: true
+    rules:
+      - postconditions:
+          any_of:
+            - slot_conditions:
+                anatomical_structure_curies:
+                  required: true
+            - slot_conditions:
+                anatomical_structure_not_involved_curies:
+                  required: true
+          description: At least one of anatomical_structure_curies or anatomical_structure_not_involved_curies must be populated.
+
+## ------------
+## SLOTS
+## ------------
+
+slots:
+
+  # ====== Common slots (both Gene and Anatomical Structure) ======
+
+  functional_necessity:
+    description: >-
+      Whether the functional entity (gene or structure) is necessary (required)
+      or unnecessary (not required) for the phenotype.
+    notes: >-
+      For genes: determined by loss-of-function
+      For structures: determined by ablation/removal
+    domain: AnatomyFunctionAnnotation
+    range: VocabularyTerm
+    required: false
+    values_from:
+      - necessity_vocabulary
+
+  functional_sufficiency:
+    description: >-
+      Whether the functional entity (gene or structure) is sufficient (alone
+      can cause) or insufficient (not enough alone) for the phenotype.
+    notes: >-
+      For genes: determined by gain-of-function/ectopic expression
+      For structures: determined by transplantation/activation
+    domain: AnatomyFunctionAnnotation
+    range: VocabularyTerm
+    required: false
+    values_from:
+      - sufficiency_vocabulary
+
+  assay_used:
+    description: >-
+      The experimental assay or method used to determine the functional relationship.
+    notes: >-
+      Examples: "RNA interference", "laser ablation", "mosaic analysis",
+      "tissue-specific rescue", "surgical removal"
+    domain: AnatomyFunctionAnnotation
+    range: MMOTerm
+    multivalued: true
+    required: false
+
+  # ====== Gene-specific slots ======
+
+  gene_subject:
+    description: >-
+      The gene that is the subject of the annotation.
+    domain: GeneAnatomyFunctionAnnotation
+    range: Gene
+    required: true
+
+  anatomical_sites:
+    description: >-
+      The anatomical location(s) WHERE the gene functions to produce the phenotype.
+      This is the site of gene action/requirement.
+    notes: >-
+      For gene annotations, this describes where the gene needs to be active.
+      Multivalued to support genes that function in multiple tissues for the
+      same phenotype.
+    domain: GeneAnatomyFunctionAnnotation
+    range: AnatomicalSite
+    multivalued: true
+    required: false
+
+  anatomical_sites_not_involved:
+    description: >-
+      Anatomical location(s) where the gene does NOT function for this phenotype.
+      Negative spatial data.
+    domain: GeneAnatomyFunctionAnnotation
+    range: AnatomicalSite
+    multivalued: true
+    required: false
+
+  cell_autonomy:
+    description: >-
+      Whether the gene acts cell-autonomously (within the cell where expressed)
+      or non-cell-autonomously (affects other cells).
+    notes: >-
+      Only applicable to gene-level annotations. Determined by mosaic analysis,
+      tissue-specific rescue, or cell-specific knockdown.
+    domain: GeneAnatomyFunctionAnnotation
+    range: VocabularyTerm
+    required: false
+    values_from:
+      - cell_autonomy_vocabulary
+
+  # ====== Anatomical Structure-specific slots ======
+
+  anatomical_structure_subjects:
+    description: >-
+      The anatomical structure(s) that are the subject of the annotation: the
+      structures whose presence/absence/activity affects the phenotype. When
+      more than one is given they were manipulated together.
+    notes: >-
+      Examples: "touch receptor neurons", "pharynx", "vulva", "body wall muscle".
+      Maps from ACEDB Anatomy_function Body_part Involved.
+    domain: AnatomicalStructureFunctionAnnotation
+    range: AnatomicalTerm
+    multivalued: true
+    required: false
+
+  anatomical_structures_not_involved:
+    description: >-
+      Anatomical structure(s) shown NOT to be involved in the phenotype (e.g.
+      ablation had no effect). Negative data.
+    notes: >-
+      Maps from ACEDB Anatomy_function Body_part Not_involved.
+    domain: AnatomicalStructureFunctionAnnotation
+    range: AnatomicalTerm
+    multivalued: true
+    required: false
+
+  anatomical_context:
+    description: >-
+      Optional anatomical context providing additional spatial information.
+      For example, if a specific cell type (subject) within a larger tissue
+      (context) is being studied.
+    notes: >-
+      This is different from the subject. The subject is the structure being
+      manipulated/studied; the context is the broader anatomical location.
+      Example: Subject="ALM neuron", Context="head region"
+    domain: AnatomicalStructureFunctionAnnotation
+    range: AnatomicalSite
+    required: false
+
+  # ====== DTO slots ======
+  # gene_identifier (gene.yaml) and phenotype_term_curie (allele.yaml) are reused.
+
+  anatomical_structure_curies:
+    description: >-
+      CURIEs of the anatomical structure subject(s).
+    domain: AnatomicalStructureFunctionAnnotationDTO
+    range: string
+    multivalued: true
+    required: false
+
+  anatomical_structure_not_involved_curies:
+    description: >-
+      CURIEs of anatomical structures shown not to be involved.
+    domain: AnatomicalStructureFunctionAnnotationDTO
+    range: string
+    multivalued: true
+    required: false
+
+
+
+
+  anatomical_site_dtos:
+    description: >-
+      List of anatomical sites where the gene functions (for gene annotations).
+    domain: GeneAnatomyFunctionAnnotationDTO
+    range: AnatomicalSiteDTO
+    multivalued: true
+    required: false
+
+  anatomical_site_not_involved_dtos:
+    description: >-
+      List of anatomical sites where the gene does NOT function.
+    domain: GeneAnatomyFunctionAnnotationDTO
+    range: AnatomicalSiteDTO
+    multivalued: true
+    required: false
+
+  anatomical_context_dto:
+    description: >-
+      Anatomical context for structure annotations.
+    domain: AnatomicalStructureFunctionAnnotationDTO
+    range: AnatomicalSiteDTO
+    required: false
+
+  cell_autonomy_name:
+    description: >-
+      Name of the cell autonomy vocabulary term.
+    domain: GeneAnatomyFunctionAnnotationDTO
+    range: string
+    required: false
+
+  necessity_name:
+    description: >-
+      Name of the necessity vocabulary term.
+    range: string
+    required: false
+
+  sufficiency_name:
+    description: >-
+      Name of the sufficiency vocabulary term.
+    range: string
+    required: false
+
+  assay_name:
+    description: >-
+      Name or identifier of the assay used.
+    range: string
+    required: false
+
+## ------------
+## ENUMS
+## ------------
+
+enums:
+
+  CellAutonomyEnum:
+    description: >-
+      Controlled vocabulary for cell autonomy status (gene-level only)
+    permissible_values:
+      cell_autonomous:
+        description: >-
+          Gene acts within the cell where it is expressed.
+        meaning: alliance:0000001
+      non_cell_autonomous:
+        description: >-
+          Gene acts to affect other cells.
+        meaning: alliance:0000002
+
+  NecessityEnum:
+    description: >-
+      Controlled vocabulary for necessity status (applies to both genes and structures)
+    permissible_values:
+      necessary:
+        description: >-
+          Entity is required for the function. Removal/loss results in phenotype.
+        meaning: alliance:0000003
+      unnecessary:
+        description: >-
+          Entity is not required for the function.
+        meaning: alliance:0000004
+
+  SufficiencyEnum:
+    description: >-
+      Controlled vocabulary for sufficiency status (applies to both genes and structures)
+    permissible_values:
+      sufficient:
+        description: >-
+          Entity alone is sufficient to produce the function.
+        meaning: alliance:0000005
+      insufficient:
+        description: >-
+          Entity alone is not sufficient. Additional factors required.
+        meaning: alliance:0000006

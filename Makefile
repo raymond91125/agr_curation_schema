@@ -189,6 +189,7 @@ deploy-testpypi:
 SCHEMA_TEST_EXAMPLES := \
 	agm_association_ingest_test \
 	agm_test \
+	anatomy_function_test \
 	allele_association_ingest_test \
 	allele_slot_annotation_ingest_test \
 	allele_test \

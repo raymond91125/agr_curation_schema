@@ -1,0 +1,189 @@
+{
+  "linkml_version": "v2.15.0",
+  "alliance_member_release_version": "WS298",
+  "gene_anatomy_function_annotation_ingest_set": [
+    {
+      "mod_internal_id": "WBbtf0001",
+      "internal": false,
+      "data_provider_dto": {
+        "source_organization_abbreviation": "WB",
+        "internal": false
+      },
+      "evidence_curie": "WB:WBPaper00027029",
+      "phenotype_term_curie": "WBPhenotype:0001446",
+      "gene_identifier": "WB:WBGene00001681",
+      "anatomical_site_dtos": [
+        {
+          "anatomical_structure_curie": "WBbt:0005666",
+          "internal": false
+        },
+        {
+          "anatomical_structure_curie": "WBbt:0005665",
+          "internal": false
+        },
+        {
+          "anatomical_structure_curie": "WBbt:0005661",
+          "internal": false
+        }
+      ],
+      "sufficiency_name": "sufficient",
+      "assay_name": "Expression_mosaic",
+      "note_dtos": [
+        {
+          "free_text": "NaCl gustatory plasticity defective",
+          "note_type_name": "comment",
+          "internal": false
+        },
+        {
+          "free_text": "Published_as gpc-1",
+          "note_type_name": "published_as",
+          "internal": false
+        },
+        {
+          "free_text": "in gpc-1 mutant, expression of GPC-1 in ADL and ASH neurons resulted in better rescue than expression in ASH neurons alone.",
+          "note_type_name": "comment",
+          "internal": false
+        },
+        {
+          "free_text": "partial rescue of gpc-1 mutant by ASH-specific expression of GPC-1.",
+          "note_type_name": "comment",
+          "internal": false
+        },
+        {
+          "free_text": "partial rescue of gpc-1 mutant by ASI-specific expression of GPC-1.",
+          "note_type_name": "comment",
+          "internal": false
+        }
+      ]
+    },
+    {
+      "mod_internal_id": "WBbtf0039",
+      "internal": false,
+      "data_provider_dto": {
+        "source_organization_abbreviation": "WB",
+        "internal": false
+      },
+      "evidence_curie": "WB:WBPaper00003951",
+      "phenotype_term_curie": "WBPhenotype:0001071",
+      "gene_identifier": "WB:WBGene00001444",
+      "anatomical_site_not_involved_dtos": [
+        {
+          "anatomical_structure_curie": "WBbt:0006830",
+          "internal": false
+        }
+      ],
+      "sufficiency_name": "insufficient",
+      "assay_name": "Laser_ablation",
+      "note_dtos": [
+        {
+          "free_text": "Genotype \"flp-1(yn2)\"",
+          "note_type_name": "genotype",
+          "internal": false
+        },
+        {
+          "free_text": "HSN-ablated flp-1 animals were no more severely egg-laying defective than HSN-ablated wild-type animals. In the presence of exogenous serotonin, HSN-ablated flp-1 animals laid eggs significantly more slowly than HSN-ablated wild-type animals.",
+          "note_type_name": "comment",
+          "internal": false
+        }
+      ]
+    },
+    {
+      "mod_internal_id": "WBbtf0179",
+      "internal": false,
+      "data_provider_dto": {
+        "source_organization_abbreviation": "WB",
+        "internal": false
+      },
+      "evidence_curie": "WB:WBPaper00005544",
+      "phenotype_term_curie": "WBPhenotype:0000384",
+      "gene_identifier": "WB:WBGene00006776",
+      "anatomical_site_dtos": [
+        {
+          "anatomical_structure_curie": "WBbt:0003832",
+          "internal": false
+        }
+      ],
+      "cell_autonomy_name": "cell_autonomous",
+      "sufficiency_name": "sufficient",
+      "assay_name": "Expression_mosaic",
+      "note_dtos": [
+        {
+          "free_text": "ENTITY:WBbt:0003832(AVM)|GO:0007411(axon guidance) QUALITY:PATO:0000460(abnormal)",
+          "note_type_name": "phenotype_eq",
+          "internal": false
+        },
+        {
+          "free_text": "Genotype \"kyIs218(myo-3:SLT-1); unc-40(e1430); mec-7:UNC-40\"",
+          "note_type_name": "genotype",
+          "internal": false
+        },
+        {
+          "free_text": "expression of unc-40 in touch neurons under the mec-7 promoter was sufficient to restore posterior AVM axons to unc-40; myo-3:SLT-1 animals.",
+          "note_type_name": "comment",
+          "internal": false
+        }
+      ]
+    }
+  ],
+  "anatomical_structure_function_annotation_ingest_set": [
+    {
+      "mod_internal_id": "WBbtf0070",
+      "internal": false,
+      "data_provider_dto": {
+        "source_organization_abbreviation": "WB",
+        "internal": false
+      },
+      "evidence_curie": "WB:WBPaper00005027",
+      "phenotype_term_curie": "WBPhenotype:0000279",
+      "anatomical_structure_curies": [
+        "WBbt:0004968",
+        "WBbt:0004967"
+      ],
+      "anatomical_structure_not_involved_curies": [
+        "WBbt:0006862",
+        "WBbt:0007805"
+      ],
+      "necessity_name": "necessary",
+      "assay_name": "Laser_ablation",
+      "note_dtos": [
+        {
+          "free_text": "although each SPC neuron is associated with a separate spicule, either cell facilitates insertion of both copulatory structures.",
+          "note_type_name": "comment",
+          "internal": false
+        }
+      ]
+    },
+    {
+      "mod_internal_id": "WBbtf1001",
+      "internal": false,
+      "data_provider_dto": {
+        "source_organization_abbreviation": "WB",
+        "internal": false
+      },
+      "evidence_curie": "WB:WBPaper00042220",
+      "phenotype_term_curie": "WBPhenotype:0000399",
+      "anatomical_structure_curies": [
+        "WBbt:0006849"
+      ],
+      "necessity_name": "necessary",
+      "assay_name": "Genetic_ablation",
+      "note_dtos": [
+        {
+          "free_text": "ENTITY:WBbt:0007854(somatic gonad precursor)|GO:0016477(cell migration)",
+          "note_type_name": "phenotype_eq",
+          "internal": false
+        },
+        {
+          "free_text": "QUALITY:PATO:0000461(normal) NOT",
+          "note_type_name": "phenotype_eq",
+          "internal": false
+        },
+        {
+          "free_text": "In mes-1 (RNAi) embryos (PGCs are transformed into muscle-like cells), the SGPs were born at the same location as wild-type embryos. The SGPs still migrated posteriorly along the lateral edges of the endoderm in mes-1(RNAi) embryos (Fig. 4A and B), and they remained lateral to the endoderm but ceased migrating at a slightly more anterior position. We conclude that PGCs are dispensable for SGP posterior migration but are required for the precise positioning of SGPs at the end of their migration.",
+          "note_type_name": "comment",
+          "internal": false
+        }
+      ]
+    }
+  ]
+}
