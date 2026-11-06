@@ -53,7 +53,7 @@ structure_examples:
     data:
       curie: "AGRKB:000200001"
       primary_external_id: "WBbtf1001"
-      anatomical_structure_subject: "WBbt:0003679"  # touch receptor neurons
+      anatomical_structure_subjects: ["WBbt:0003679"]  # touch receptor neurons
       phenotype_term: "WBPhenotype:0000643"  # mechanosensory defect
       functional_necessity: "necessary"
       assay_used: ["laser ablation"]
@@ -68,7 +68,7 @@ structure_examples:
     data:
       curie: "AGRKB:000200002"
       primary_external_id: "WBbtf1002"
-      anatomical_structure_subject: "WBbt:0005831"  # pharynx
+      anatomical_structure_subjects: ["WBbt:0005831"]  # pharynx
       phenotype_term: "WBPhenotype:0000517"  # feeding defect
       functional_necessity: "necessary"
       functional_sufficiency: "sufficient"
@@ -84,7 +84,7 @@ structure_examples:
     data:
       curie: "AGRKB:000200003"
       primary_external_id: "WBbtf1003"
-      anatomical_structure_subject: "WBbt:0006748"  # vulva
+      anatomical_structure_subjects: ["WBbt:0006748"]  # vulva
       phenotype_term: "WBPhenotype:0001362"  # egg laying defect
       functional_necessity: "necessary"
       assay_used: ["developmental observation"]
@@ -99,7 +99,7 @@ structure_examples:
     data:
       curie: "AGRKB:000200004"
       primary_external_id: "WBbtf1004"
-      anatomical_structure_subject: "WBbt:0005735"  # nervous system
+      anatomical_structure_subjects: ["WBbt:0005735"]  # nervous system
       phenotype_term: "WBPhenotype:0000643"  # locomotion variant
       functional_necessity: "necessary"
       assay_used: ["chemical ablation", "genetic ablation"]
@@ -113,7 +113,7 @@ structure_examples:
     data:
       curie: "AGRKB:000200005"
       primary_external_id: "WBbtf1005"
-      anatomical_structure_subject: "WBbt:0003927"  # HSN neurons
+      anatomical_structure_subjects: ["WBbt:0003927"]  # HSN neurons
       phenotype_term: "WBPhenotype:0001362"  # egg laying defect
       functional_necessity: "necessary"
       functional_sufficiency: "sufficient"
@@ -144,7 +144,7 @@ comparison_examples:
     structure_level:
       description: "Touch neurons are necessary for mechanosensation"
       annotation_type: AnatomicalStructureFunctionAnnotation
-      anatomical_structure_subject: "WBbt:0003679"  # touch receptor neurons
+      anatomical_structure_subjects: ["WBbt:0003679"]  # touch receptor neurons
       phenotype_term: "WBPhenotype:0000643"  # mechanosensory defect
       interpretation: "The touch neurons themselves (as cellular structures) are required for mechanosensation"
 
@@ -165,7 +165,7 @@ comparison_examples:
     structure_level:
       description: "HSN neurons are necessary for egg-laying"
       annotation_type: AnatomicalStructureFunctionAnnotation
-      anatomical_structure_subject: "WBbt:0003927"  # HSN neurons
+      anatomical_structure_subjects: ["WBbt:0003927"]  # HSN neurons
       phenotype_term: "WBPhenotype:0001362"  # egg laying defect
       interpretation: "HSN neurons as a structure are required for egg-laying behavior"
 
@@ -184,7 +184,7 @@ dto_examples:
     description: "DTO for gene annotation (bulk upload)"
     data:
       mod_internal_id: "WBbtf0179"
-      gene_identifier: "WBGene00006776"
+      gene_identifier: "WB:WBGene00006776"
       phenotype_term_curie: "WBPhenotype:0001234"
       anatomical_site_dtos:
         - anatomical_structure_curie: "WBbt:0003679"
@@ -192,7 +192,7 @@ dto_examples:
       necessity_name: "necessary"
       sufficiency_name: "sufficient"
       assay_name: "mosaic analysis"
-      reference_curie: "PMID:8647913"
+      evidence_curie: "PMID:8647913"
       data_provider_dto:
         source_organization_abbreviation: "WB"
 
@@ -200,13 +200,46 @@ dto_examples:
     description: "DTO for structure annotation (bulk upload)"
     data:
       mod_internal_id: "WBbtf1001"
-      anatomical_structure_curie: "WBbt:0003679"
+      anatomical_structure_curies: ["WBbt:0003679"]
       phenotype_term_curie: "WBPhenotype:0000643"
       anatomical_context_dto:
         anatomical_structure_curie: "WBbt:0005735"  # nervous system
       necessity_name: "necessary"
       assay_name: "laser ablation"
-      reference_curie: "PMID:6275397"
+      evidence_curie: "PMID:6275397"
+      data_provider_dto:
+        source_organization_abbreviation: "WB"
+
+  gene_dto_not_involved_only:
+    description: >-
+      Gene annotation with only negative sites (WormBase WS298 WBbtf0039):
+      laser ablation shows the gene is insufficient in this site.
+      anatomical_site_dtos is optional; necessity/sufficiency then describe
+      the not-involved sites.
+    data:
+      mod_internal_id: "WBbtf0039"
+      gene_identifier: "WB:WBGene00001444"
+      phenotype_term_curie: "WBPhenotype:0001071"
+      anatomical_site_not_involved_dtos:
+        - anatomical_structure_curie: "WBbt:0006830"
+      sufficiency_name: "insufficient"
+      assay_name: "Laser_ablation"
+      evidence_curie: "WB:WBPaper00003951"
+      data_provider_dto:
+        source_organization_abbreviation: "WB"
+
+  structure_dto_combined_ablation:
+    description: >-
+      Structure annotation with several subjects ablated together plus
+      structures shown not to be involved (WormBase WS298 WBbtf0070).
+    data:
+      mod_internal_id: "WBbtf0070"
+      anatomical_structure_curies: ["WBbt:0004968", "WBbt:0004967"]
+      anatomical_structure_not_involved_curies: ["WBbt:0006862", "WBbt:0007805"]
+      phenotype_term_curie: "WBPhenotype:0000279"
+      necessity_name: "necessary"
+      assay_name: "Laser_ablation"
+      evidence_curie: "WB:WBPaper00005027"
       data_provider_dto:
         source_organization_abbreviation: "WB"
 
@@ -265,7 +298,8 @@ summary:
 
   structure_annotations:
     class: AnatomicalStructureFunctionAnnotation
-    subject: AnatomicalTerm
+    subject: AnatomicalTerm (one or more, via anatomical_structure_subjects)
+    negative_data: anatomical_structures_not_involved
     location: anatomical_context (broader context, optional)
     cell_autonomy: no (not applicable)
     use: "Cellular/tissue requirement for phenotype, independent of specific genes"

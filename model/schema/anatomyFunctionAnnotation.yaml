@@ -9,6 +9,7 @@ description: >-
 imports:
   - core
   - gene
+  - allele
   - ontologyTerm
   - phenotypeAndDiseaseAnnotation
   - expression
@@ -58,16 +59,15 @@ classes:
       - Gene-level: "unc-40 acts cell-autonomously in neurons for axon guidance"
       - Structure-level: "Touch neurons are necessary for mechanosensation"
     slots:
+      - phenotype_term
       - functional_necessity
       - functional_sufficiency
       - assay_used
-    attributes:
+    slot_usage:
       phenotype_term:
         description: >-
           The phenotype that results from or is affected by the functional entity.
-        range: PhenotypeTerm
         required: true
-    slot_usage:
       single_reference:
         description: >-
           The reference (publication) that reports this functional relationship.
@@ -82,7 +82,10 @@ classes:
     notes: >-
       Use this class when the functional entity is a specific gene and you're
       describing where that gene acts. This is the most common case for genetic
-      studies.
+      studies. functional_necessity / functional_sufficiency describe the
+      anatomical_sites when any are given; otherwise they describe the
+      anatomical_sites_not_involved (e.g. "expression in site X is insufficient
+      to rescue").
     slots:
       - gene_subject
       - anatomical_sites
@@ -105,9 +108,24 @@ classes:
       - Surgical removal studies
       - Structure-function relationships
       - Developmental requirements
+      Multiple subjects mean the structures were manipulated together (e.g. a
+      combined ablation of ASH and ADL). functional_necessity /
+      functional_sufficiency describe the anatomical_structure_subjects when any
+      are given; otherwise they describe the anatomical_structures_not_involved.
     slots:
-      - anatomical_structure_subject
+      - anatomical_structure_subjects
+      - anatomical_structures_not_involved
       - anatomical_context
+    rules:
+      - postconditions:
+          any_of:
+            - slot_conditions:
+                anatomical_structure_subjects:
+                  required: true
+            - slot_conditions:
+                anatomical_structures_not_involved:
+                  required: true
+          description: At least one of anatomical_structure_subjects or anatomical_structures_not_involved must be populated.
     examples:
       - value: Touch receptor neurons are necessary for mechanosensation
       - value: The pharynx is necessary for feeding behavior
@@ -129,7 +147,9 @@ classes:
       - sufficiency_name
       - assay_name
     slot_usage:
-      reference_curie:
+      evidence_curie:
+        required: true
+      phenotype_term_curie:
         required: true
 
   AnatomicalStructureFunctionAnnotationDTO:
@@ -137,15 +157,28 @@ classes:
     description: >-
       Ingest class for AnatomicalStructureFunctionAnnotation.
     slots:
-      - anatomical_structure_curie
+      - anatomical_structure_curies
+      - anatomical_structure_not_involved_curies
       - phenotype_term_curie
       - anatomical_context_dto
       - necessity_name
       - sufficiency_name
       - assay_name
     slot_usage:
-      reference_curie:
+      evidence_curie:
         required: true
+      phenotype_term_curie:
+        required: true
+    rules:
+      - postconditions:
+          any_of:
+            - slot_conditions:
+                anatomical_structure_curies:
+                  required: true
+            - slot_conditions:
+                anatomical_structure_not_involved_curies:
+                  required: true
+          description: At least one of anatomical_structure_curies or anatomical_structure_not_involved_curies must be populated.
 
 ## ------------
 ## SLOTS
@@ -154,13 +187,6 @@ classes:
 slots:
 
   # ====== Common slots (both Gene and Anatomical Structure) ======
-
-  phenotype_term:
-    description: >-
-      The phenotype that results from the functional entity.
-    domain: AnatomyFunctionAnnotation
-    range: PhenotypeTerm
-    required: true
 
   functional_necessity:
     description: >-
@@ -219,7 +245,7 @@ slots:
     domain: GeneAnatomyFunctionAnnotation
     range: AnatomicalSite
     multivalued: true
-    required: true
+    required: false
 
   anatomical_sites_not_involved:
     description: >-
@@ -245,15 +271,29 @@ slots:
 
   # ====== Anatomical Structure-specific slots ======
 
-  anatomical_structure_subject:
+  anatomical_structure_subjects:
     description: >-
-      The anatomical structure that is the subject of the annotation.
-      This is the structure whose presence/absence/activity affects the phenotype.
+      The anatomical structure(s) that are the subject of the annotation: the
+      structures whose presence/absence/activity affects the phenotype. When
+      more than one is given they were manipulated together.
     notes: >-
-      Examples: "touch receptor neurons", "pharynx", "vulva", "body wall muscle"
+      Examples: "touch receptor neurons", "pharynx", "vulva", "body wall muscle".
+      Maps from ACEDB Anatomy_function Body_part Involved.
     domain: AnatomicalStructureFunctionAnnotation
     range: AnatomicalTerm
-    required: true
+    multivalued: true
+    required: false
+
+  anatomical_structures_not_involved:
+    description: >-
+      Anatomical structure(s) shown NOT to be involved in the phenotype (e.g.
+      ablation had no effect). Negative data.
+    notes: >-
+      Maps from ACEDB Anatomy_function Body_part Not_involved.
+    domain: AnatomicalStructureFunctionAnnotation
+    range: AnatomicalTerm
+    multivalued: true
+    required: false
 
   anatomical_context:
     description: >-
@@ -269,26 +309,26 @@ slots:
     required: false
 
   # ====== DTO slots ======
+  # gene_identifier (gene.yaml) and phenotype_term_curie (allele.yaml) are reused.
 
-  gene_identifier:
+  anatomical_structure_curies:
     description: >-
-      CURIE of the gene subject.
-    domain: GeneAnatomyFunctionAnnotationDTO
-    range: string
-    required: true
-
-  anatomical_structure_curie:
-    description: >-
-      CURIE of the anatomical structure subject.
+      CURIEs of the anatomical structure subject(s).
     domain: AnatomicalStructureFunctionAnnotationDTO
     range: string
-    required: true
+    multivalued: true
+    required: false
 
-  phenotype_term_curie:
+  anatomical_structure_not_involved_curies:
     description: >-
-      CURIE of the phenotype term.
+      CURIEs of anatomical structures shown not to be involved.
+    domain: AnatomicalStructureFunctionAnnotationDTO
     range: string
-    required: true
+    multivalued: true
+    required: false
+
+
+
 
   anatomical_site_dtos:
     description: >-
@@ -296,7 +336,7 @@ slots:
     domain: GeneAnatomyFunctionAnnotationDTO
     range: AnatomicalSiteDTO
     multivalued: true
-    required: true
+    required: false
 
   anatomical_site_not_involved_dtos:
     description: >-

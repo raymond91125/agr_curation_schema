@@ -16,6 +16,7 @@ imports:
   - variantDTO
   - biologicalEntitySet
   - expression
+  - anatomyFunctionAnnotation
 
 prefixes:
   alliance: "http://alliancegenome.org/"
@@ -61,6 +62,20 @@ slots:
       Version of Alliance member/MOD release used for submitted file
     domain: Ingest
     range: string
+
+  gene_anatomy_function_annotation_ingest_set:
+    domain: Ingest
+    range: GeneAnatomyFunctionAnnotationDTO
+    multivalued: true
+    mixins:
+      - object_set
+
+  anatomical_structure_function_annotation_ingest_set:
+    domain: Ingest
+    range: AnatomicalStructureFunctionAnnotationDTO
+    multivalued: true
+    mixins:
+      - object_set
 
   allele_ingest_set:
     domain: Ingest
@@ -460,6 +475,8 @@ classes:
       - phenotype_allele_ingest_set
       - phenotype_agm_ingest_set
       - phenotype_gene_ingest_set
+      - gene_anatomy_function_annotation_ingest_set
+      - anatomical_structure_function_annotation_ingest_set
       - gene_ingest_set
       - variant_ingest_set
       - allele_variant_association_ingest_set

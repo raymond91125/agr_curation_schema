@@ -30,6 +30,7 @@ emit_prefixes:
 imports:
   - affectedGenomicModel
   - agent
+  - anatomyFunctionAnnotation
   - allele
   - allianceMember
   - biologicalEntitySet
